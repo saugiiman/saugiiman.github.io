@@ -79,17 +79,17 @@
 </section>
 
 <script>
- const ip = "afkbottest.aternos.me";
+const ip = "afkbottest.aternos.me";
 let serverData = null;
+let lastStatusOnline = null;
+let isLoading = true;
 
-// Check if start timestamp exists in localStorage
+// Uptime start stored in localStorage
 let storedStart = localStorage.getItem("customUptimeStart");
-
 let customStartTime;
 if (storedStart) {
   customStartTime = new Date(parseInt(storedStart));
 } else {
-  // If not stored, set it to now minus 5 days (so uptime starts at 5 days)
   customStartTime = new Date(Date.now() - 5 * 24 * 60 * 60 * 1000);
   localStorage.setItem("customUptimeStart", customStartTime.getTime());
 }
@@ -102,58 +102,91 @@ function formatDuration(ms) {
   return `${hrs}h ${mins}m ${secs}s`;
 }
 
-function fetchServerStatus() {
+function updateStatusDisplay() {
+  const box = document.getElementById("status-box");
+  const uptimeMs = Date.now() - customStartTime.getTime();
+  
+  if (serverData) {
+    if (serverData.online) {
+      lastStatusOnline = true;
+      const onlinePlayers = serverData.players?.online || 0;
+      const maxPlayers = serverData.players?.max || "?";
+      const motd = serverData.motd?.clean?.join(" ") || "Welcome!";
+      const uptime = formatDuration(uptimeMs);
+  
+      box.innerHTML = `
+        <p class="text-green-400 font-semibold">🟢 Online</p>
+        <p><strong>IP:</strong> ${ip}</p>
+        <p><strong>MOTD:</strong> ${motd}</p>
+        <p><strong>Players:</strong> ${onlinePlayers} / ${maxPlayers}</p>
+        <p><strong>Uptime:</strong> ${uptime}</p>
+      `;
+    } else {
+      lastStatusOnline = false;
+      const uptime = formatDuration(uptimeMs);
+      box.innerHTML = `
+        <p class="text-red-400 font-semibold">🔴 Offline</p>
+        <p><strong>IP:</strong> ${ip}</p>
+        <p><strong>Uptime:</strong> ${uptime}</p>
+      `;
+    }
+  } else {
+    // If no serverData yet, show loading or last known status
+    if (isLoading) {
+      box.innerHTML = `<p class="text-gray-300">Fetching status...</p>`;
+    } else if (lastStatusOnline === true) {
+      // Show last known online info with uptime, minimal
+      const uptime = formatDuration(uptimeMs);
+      box.innerHTML = `
+        <p class="text-green-400 font-semibold">🟢 Online (last known)</p>
+        <p><strong>IP:</strong> ${ip}</p>
+        <p><strong>Uptime:</strong> ${uptime}</p>
+      `;
+    } else if (lastStatusOnline === false) {
+      const uptime = formatDuration(uptimeMs);
+      box.innerHTML = `
+        <p class="text-red-400 font-semibold">🔴 Offline (last known)</p>
+        <p><strong>IP:</strong> ${ip}</p>
+        <p><strong>Uptime:</strong> ${uptime}</p>
+      `;
+    } else {
+      box.innerHTML = `<p class="text-gray-300">Fetching status...</p>`;
+    }
+  }
+}
+
+function fetchServerStatus(retryCount = 0) {
   fetch(`https://api.mcsrvstat.us/2/${ip}`)
     .then(res => res.json())
     .then(data => {
       serverData = data;
+      isLoading = false;
       updateStatusDisplay();
     })
     .catch(() => {
-      const box = document.getElementById("status-box");
-      box.innerHTML = `⚠️ Failed to fetch server status.`;
+      if (retryCount < 3) {
+        // Retry after 1 second
+        setTimeout(() => fetchServerStatus(retryCount + 1), 1000);
+      } else {
+        // After retries fail, keep last known status and update display
+        isLoading = false;
+        updateStatusDisplay();
+      }
     });
-}
-
-function updateStatusDisplay() {
-  const box = document.getElementById("status-box");
-  const uptimeMs = Date.now() - customStartTime.getTime();
-
-  if (serverData && serverData.online) {
-    const onlinePlayers = serverData.players?.online || 0;
-    const maxPlayers = serverData.players?.max || "?";
-    const motd = serverData.motd?.clean?.join(" ") || "Welcome!";
-    const uptime = formatDuration(uptimeMs);
-
-    box.innerHTML = `
-      <p class="text-green-400 font-semibold">🟢 Online</p>
-      <p><strong>IP:</strong> ${ip}</p>
-      <p><strong>MOTD:</strong> ${motd}</p>
-      <p><strong>Players:</strong> ${onlinePlayers} / ${maxPlayers}</p>
-      <p><strong>Uptime:</strong> ${uptime}</p>
-    `;
-  } else if (serverData) {
-    box.innerHTML = `
-      <p class="text-red-400 font-semibold">🔴 Offline</p>
-      <p><strong>IP:</strong> ${ip}</p>
-      <p><strong>Uptime:</strong> ${formatDuration(uptimeMs)}</p>
-    `;
-  }
 }
 
 // Initial fetch
 fetchServerStatus();
 
-// Update display every second to keep uptime increasing
+// Update display every second (to update uptime)
 setInterval(() => {
-  if (serverData) {
-    updateStatusDisplay();
-  }
+  updateStatusDisplay();
 }, 1000);
 
 // Refresh server status every 30 seconds
-setInterval(fetchServerStatus, 30000);
-
+setInterval(() => {
+  fetchServerStatus();
+}, 30000);
 
 </script>
 
