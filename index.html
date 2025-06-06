@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" >
 <head>
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="manifest" href="/site.webmanifest">
@@ -80,49 +80,71 @@
 
 <script>
   const ip = "afkbottest.aternos.me"; // Replace with your real IP or domain
-  const startTime = new Date();
+const startTime = new Date();       // Keep for server status timing if needed
+let serverData = null;
 
-  function formatDuration(ms) {
-    const totalSeconds = Math.floor(ms / 1000);
-    const hrs = Math.floor(totalSeconds / 3600);
-    const mins = Math.floor((totalSeconds % 3600) / 60);
-    const secs = totalSeconds % 60;
-    return `${hrs}h ${mins}m ${secs}s`;
+// Start uptime at 5 days (in milliseconds)
+let uptimeMs = 5 * 24 * 60 * 60 * 1000;
+
+function formatDuration(ms) {
+  const totalSeconds = Math.floor(ms / 1000);
+  const hrs = Math.floor(totalSeconds / 3600);
+  const mins = Math.floor((totalSeconds % 3600) / 60);
+  const secs = totalSeconds % 60;
+  return `${hrs}h ${mins}m ${secs}s`;
+}
+
+function fetchServerStatus() {
+  fetch(`https://api.mcsrvstat.us/2/${ip}`)
+    .then(res => res.json())
+    .then(data => {
+      serverData = data;
+      updateStatusDisplay();
+    })
+    .catch(() => {
+      const box = document.getElementById("status-box");
+      box.innerHTML = `⚠️ Failed to fetch server status.`;
+    });
+}
+
+function updateStatusDisplay() {
+  const box = document.getElementById("status-box");
+  if (serverData && serverData.online) {
+    const onlinePlayers = serverData.players?.online || 0;
+    const maxPlayers = serverData.players?.max || "?";
+    const motd = serverData.motd?.clean?.join(" ") || "Welcome!";
+    const uptime = formatDuration(uptimeMs);
+
+    box.innerHTML = `
+      <p class="text-green-400 font-semibold">🟢 Online</p>
+      <p><strong>IP:</strong> ${ip}</p>
+      <p><strong>MOTD:</strong> ${motd}</p>
+      <p><strong>Players:</strong> ${onlinePlayers} / ${maxPlayers}</p>
+      <p><strong>Uptime:</strong> ${uptime}</p>
+    `;
+  } else if (serverData) {
+    box.innerHTML = `
+      <p class="text-red-400 font-semibold">🔴 Offline</p>
+      <p><strong>IP:</strong> ${ip}</p>
+      <p><strong>Uptime:</strong> ${formatDuration(uptimeMs)}</p>
+    `;
   }
+}
 
-  function updateStatus() {
-    fetch(`https://api.mcsrvstat.us/2/${ip}`)
-      .then(res => res.json())
-      .then(data => {
-        const box = document.getElementById("status-box");
+// Initial fetch
+fetchServerStatus();
 
-        if (data.online) {
-          const onlinePlayers = data.players?.online || 0;
-          const maxPlayers = data.players?.max || "?";
-          const motd = data.motd?.clean?.join(" ") || "Welcome!";
-          const uptime = formatDuration(Date.now() - startTime.getTime());
-
-          box.innerHTML = `
-            <p class="text-green-400 font-semibold">🟢 Online</p>
-            <p><strong>IP:</strong> ${ip}</p>
-            <p><strong>MOTD:</strong> ${motd}</p>
-            <p><strong>Players:</strong> ${onlinePlayers} / ${maxPlayers}</p>
-            <p><strong>Uptime:</strong> ${uptime}</p>
-          `;
-        } else {
-          box.innerHTML = `
-            <p class="text-red-400 font-semibold">🔴 Offline</p>
-            <p><strong>IP:</strong> ${ip}</p>
-          `;
-        }
-      })
-      .catch(() => {
-        document.getElementById("status-box").innerHTML = "⚠️ Failed to fetch server status.";
-      });
+// Increase uptime every second
+setInterval(() => {
+  uptimeMs += 1000; // add 1 second
+  if (serverData) {
+    updateStatusDisplay();
   }
+}, 1000);
 
-  updateStatus();
-  setInterval(updateStatus, 10000);
+// Refresh server status every 30 seconds
+setInterval(fetchServerStatus, 30000);
+
 </script>
 
 
