@@ -57,26 +57,29 @@
 
   <main class="max-w-4xl mx-auto px-6 space-y-16">
 
-  <section class="fade-slide-up delay-200">
+ <section class="fade-slide-up delay-200">
   <h2 class="text-3xl font-bold mb-6 border-b-2 border-blue-500 inline-block pb-1">🚀 Projects</h2>
 
-  <div class="bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-blue-600 transition-shadow duration-500">
-    <h3 class="text-2xl font-semibold mb-2">AFK Bot for 24/7 Minecraft Server</h3>
-    <p class="text-gray-300 leading-relaxed mb-4">
-      Keeps your Minecraft server online 24/7 using an AFK bot. Works on cracked or premium servers. Compatible with Java and Bedrock editions.
+  <div class="bg-gradient-to-br from-[#1f1f1f] to-[#2c2c2c] p-8 rounded-2xl shadow-2xl transition-transform transform hover:scale-[1.02] duration-300 backdrop-blur-lg border border-blue-800">
+    <h3 class="text-3xl font-bold text-white mb-3">AFK Bot for 24/7 Minecraft Server</h3>
+    <p class="text-gray-300 leading-relaxed mb-6 text-lg">
+      A custom AFK bot that keeps Minecraft servers online 24/7. Works on both Java and Bedrock versions.
     </p>
 
     <!-- Real-time status card -->
-    <div id="status-box" class="p-4 bg-gray-900 rounded-lg text-center text-gray-300">
-      <img id="server-icon" src="" alt="Server Icon" class="mx-auto mb-2 w-16 h-16 rounded shadow-md">
-      <h4 class="text-xl font-semibold text-blue-400 mb-2">🌐 Server Status</h4>
-      <p>Fetching status...</p>
+    <div id="status-box" class="bg-[#111827] p-6 rounded-xl text-center text-white border border-blue-700 shadow-lg">
+      <div class="flex justify-center mb-4">
+        <img id="server-icon" src="" alt="Server Icon" class="w-16 h-16 rounded-md shadow-md border border-gray-600 hidden">
+      </div>
+      <h4 class="text-2xl font-semibold text-blue-400 mb-2">🌐 Live Server Status</h4>
+      <p class="text-gray-400 text-lg">Fetching live data...</p>
     </div>
   </div>
 </section>
 
 <script>
-  const ip = "afkbottest.aternos.me"; // ← Replace with your actual server IP or domain
+  const ip = "YOUR.SERVER.IP.HERE"; // ✅ Replace this with your real IP or domain
+
   const startTime = new Date();
 
   function formatDuration(ms) {
@@ -95,42 +98,49 @@
         const icon = document.getElementById("server-icon");
 
         if (data.online) {
+          icon.src = `https://api.mcsrvstat.us/icon/${ip}`;
+          icon.classList.remove("hidden");
+
           const onlinePlayers = data.players?.online || 0;
           const maxPlayers = data.players?.max || "?";
           const motd = data.motd?.clean?.join(" ") || "Welcome!";
           const uptime = formatDuration(Date.now() - startTime.getTime());
 
-          // Update icon
-          icon.src = `https://api.mcsrvstat.us/icon/${ip}`;
-
           box.innerHTML = `
-            <img src="https://api.mcsrvstat.us/icon/${ip}" alt="Server Icon" class="mx-auto mb-2 w-16 h-16 rounded shadow-md">
-            <p class="text-green-400 font-semibold text-lg">🟢 Online</p>
-            <p><strong>IP:</strong> ${ip}</p>
-            <p><strong>MOTD:</strong> ${motd}</p>
-            <p><strong>Players:</strong> ${onlinePlayers} / ${maxPlayers}</p>
-            <p><strong>Uptime:</strong> ${uptime}</p>
+            <div class='flex justify-center mb-4'>
+              <img src="${icon.src}" alt="Server Icon" class="w-16 h-16 rounded-md shadow-md border border-gray-600">
+            </div>
+            <p class="text-green-400 font-semibold text-xl">🟢 Online</p>
+            <div class="text-lg mt-2 space-y-1">
+              <p><strong>IP:</strong> ${ip}</p>
+              <p><strong>MOTD:</strong> ${motd}</p>
+              <p><strong>Players:</strong> ${onlinePlayers} / ${maxPlayers}</p>
+              <p><strong>Uptime:</strong> ${uptime}</p>
+            </div>
           `;
 
-          if (data.players.list) {
+          if (data.players?.list?.length > 0) {
             const playersList = data.players.list.map(p => `👤 ${p}`).join("<br>");
-            box.innerHTML += `<div class='mt-2'><strong>Online Players:</strong><br>${playersList}</div>`;
+            box.innerHTML += `<div class='mt-4 text-left text-sm text-gray-300'><strong>Online Players:</strong><br>${playersList}</div>`;
           }
         } else {
-          icon.src = "";
+          icon.classList.add("hidden");
           box.innerHTML = `
-            <p class="text-red-400 font-semibold text-lg">🔴 Offline</p>
-            <p><strong>IP:</strong> ${ip}</p>
+            <p class="text-red-400 font-semibold text-xl">🔴 Server Offline</p>
+            <p class="text-gray-300 text-lg mt-2"><strong>IP:</strong> ${ip}</p>
           `;
         }
       })
-      .catch(() => {
-        document.getElementById("status-box").innerHTML = "⚠️ Failed to fetch server status.";
+      .catch(err => {
+        document.getElementById("status-box").innerHTML = `
+          <p class="text-yellow-400 text-lg">⚠️ Failed to fetch server status.</p>
+        `;
+        console.error(\"Server Status Error:\", err);
       });
   }
 
   updateStatus();
-  setInterval(updateStatus, 10000); // Auto-update every 10 seconds
+  setInterval(updateStatus, 10000);
 </script>
 
 
