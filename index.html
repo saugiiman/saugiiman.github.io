@@ -57,18 +57,48 @@
 
   <main class="max-w-4xl mx-auto px-6 space-y-16">
 
-    <section class="fade-slide-up delay-200">
-      <h2 class="text-3xl font-bold mb-6 border-b-2 border-blue-500 inline-block pb-1">🚀 Projects</h2>
-      <div class="bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-blue-600 transition-shadow duration-500">
-        <h3 class="text-2xl font-semibold mb-2">AFK Bot for 24/7 Servers</h3>
-        <p class="text-gray-300 leading-relaxed">
-          A powerful Node.js bot that keeps any cracked Minecraft server online 24/7 — even when you're not playing!
-        </p>
-        <a href="https://github.com/saugiiman/afkbottest" target="_blank" rel="noopener" class="text-blue-400 underline mt-4 inline-block font-medium hover:text-blue-500">
-          🔗 View GitHub Repo
-        </a>
-      </div>
-    </section>
+   <section class="fade-slide-up delay-200">
+  <h2 class="text-3xl font-bold mb-6 border-b-2 border-blue-500 inline-block pb-1">🚀 Projects</h2>
+
+  <div class="bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-blue-600 transition-shadow duration-500">
+    <h3 class="text-2xl font-semibold mb-2">AFK Bot for 24/7 Server</h3>
+    <p class="text-gray-300 leading-relaxed mb-4">
+      This bot keeps your cracked Minecraft server online 24/7 — perfect for SMPs or Bedrock-enabled networks.
+    </p>
+
+    <!-- Real-time server status -->
+    <div id="status-box" class="p-4 bg-gray-900 rounded-lg text-center text-gray-300">
+      <h4 class="text-xl font-semibold text-blue-400 mb-2">🌐 Server Status</h4>
+      <p id="server-ip">Checking status...</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  const ip = "afkbottest.aternos.me"; // CHANGE THIS
+  fetch(`https://api.mcsrvstat.us/2/${ip}`)
+    .then(res => res.json())
+    .then(data => {
+      const box = document.getElementById("server-ip");
+      if (data.online) {
+        box.innerHTML = `
+          🟢 Online<br>
+          IP: <strong>${ip}</strong><br>
+          MOTD: <span class="text-green-400">${data.motd.clean.join(" ")}</span><br>
+          Players: <strong>${data.players.online}</strong> / ${data.players.max}
+        `;
+      } else {
+        box.innerHTML = `
+          🔴 Offline<br>
+          IP: <strong>${ip}</strong>
+        `;
+      }
+    })
+    .catch(() => {
+      document.getElementById("server-ip").innerHTML = "⚠️ Failed to fetch status.";
+    });
+</script>
+
 
     <section class="fade-slide-up delay-300">
       <h2 class="text-3xl font-bold mb-6 border-b-2 border-blue-500 inline-block pb-1">💼 Services</h2>
@@ -88,12 +118,6 @@
     <strong>saugiiman</strong>
   </p>
 
-  <p class="text-gray-300 text-lg flex items-center gap-2 mb-4">
-    <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub" class="w-5 h-5 inline-block">
-    <a href="https://github.com/saugiiman" target="_blank" rel="noopener" class="text-blue-400 underline hover:text-blue-500">
-      GitHub Profile
-    </a>
-  </p>
 
   <p class="text-gray-300 text-lg italic">
     💬 Discord Server: Coming Soon
