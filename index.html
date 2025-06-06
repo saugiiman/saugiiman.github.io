@@ -57,46 +57,80 @@
 
   <main class="max-w-4xl mx-auto px-6 space-y-16">
 
-   <section class="fade-slide-up delay-200">
+  <section class="fade-slide-up delay-200">
   <h2 class="text-3xl font-bold mb-6 border-b-2 border-blue-500 inline-block pb-1">🚀 Projects</h2>
 
   <div class="bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-blue-600 transition-shadow duration-500">
-    <h3 class="text-2xl font-semibold mb-2">AFK Bot for 24/7 Server</h3>
+    <h3 class="text-2xl font-semibold mb-2">AFK Bot for 24/7 Minecraft Server</h3>
     <p class="text-gray-300 leading-relaxed mb-4">
-      This bot keeps your cracked Minecraft server online 24/7 — perfect for SMPs or Bedrock-enabled networks.
+      Keeps your Minecraft server online 24/7 using an AFK bot. Works on cracked or premium servers. Compatible with Java and Bedrock editions.
     </p>
 
-    <!-- Real-time server status -->
+    <!-- Real-time status card -->
     <div id="status-box" class="p-4 bg-gray-900 rounded-lg text-center text-gray-300">
+      <img id="server-icon" src="" alt="Server Icon" class="mx-auto mb-2 w-16 h-16 rounded shadow-md">
       <h4 class="text-xl font-semibold text-blue-400 mb-2">🌐 Server Status</h4>
-      <p id="server-ip">Checking status...</p>
+      <p>Fetching status...</p>
     </div>
   </div>
 </section>
 
 <script>
-  const ip = "afkbottest.aternos.me"; // CHANGE THIS
-  fetch(`https://api.mcsrvstat.us/2/${ip}`)
-    .then(res => res.json())
-    .then(data => {
-      const box = document.getElementById("server-ip");
-      if (data.online) {
-        box.innerHTML = `
-          🟢 Online<br>
-          IP: <strong>${ip}</strong><br>
-          MOTD: <span class="text-green-400">${data.motd.clean.join(" ")}</span><br>
-          Players: <strong>${data.players.online}</strong> / ${data.players.max}
-        `;
-      } else {
-        box.innerHTML = `
-          🔴 Offline<br>
-          IP: <strong>${ip}</strong>
-        `;
-      }
-    })
-    .catch(() => {
-      document.getElementById("server-ip").innerHTML = "⚠️ Failed to fetch status.";
-    });
+  const ip = "afkbottest.aternos.me"; // ← Replace with your actual server IP or domain
+  const startTime = new Date();
+
+  function formatDuration(ms) {
+    const totalSeconds = Math.floor(ms / 1000);
+    const hrs = Math.floor(totalSeconds / 3600);
+    const mins = Math.floor((totalSeconds % 3600) / 60);
+    const secs = totalSeconds % 60;
+    return `${hrs}h ${mins}m ${secs}s`;
+  }
+
+  function updateStatus() {
+    fetch(`https://api.mcsrvstat.us/2/${ip}`)
+      .then(res => res.json())
+      .then(data => {
+        const box = document.getElementById("status-box");
+        const icon = document.getElementById("server-icon");
+
+        if (data.online) {
+          const onlinePlayers = data.players?.online || 0;
+          const maxPlayers = data.players?.max || "?";
+          const motd = data.motd?.clean?.join(" ") || "Welcome!";
+          const uptime = formatDuration(Date.now() - startTime.getTime());
+
+          // Update icon
+          icon.src = `https://api.mcsrvstat.us/icon/${ip}`;
+
+          box.innerHTML = `
+            <img src="https://api.mcsrvstat.us/icon/${ip}" alt="Server Icon" class="mx-auto mb-2 w-16 h-16 rounded shadow-md">
+            <p class="text-green-400 font-semibold text-lg">🟢 Online</p>
+            <p><strong>IP:</strong> ${ip}</p>
+            <p><strong>MOTD:</strong> ${motd}</p>
+            <p><strong>Players:</strong> ${onlinePlayers} / ${maxPlayers}</p>
+            <p><strong>Uptime:</strong> ${uptime}</p>
+          `;
+
+          if (data.players.list) {
+            const playersList = data.players.list.map(p => `👤 ${p}`).join("<br>");
+            box.innerHTML += `<div class='mt-2'><strong>Online Players:</strong><br>${playersList}</div>`;
+          }
+        } else {
+          icon.src = "";
+          box.innerHTML = `
+            <p class="text-red-400 font-semibold text-lg">🔴 Offline</p>
+            <p><strong>IP:</strong> ${ip}</p>
+          `;
+        }
+      })
+      .catch(() => {
+        document.getElementById("status-box").innerHTML = "⚠️ Failed to fetch server status.";
+      });
+  }
+
+  updateStatus();
+  setInterval(updateStatus, 10000); // Auto-update every 10 seconds
 </script>
 
 
