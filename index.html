@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -10,7 +10,6 @@
   <title>PSYxD | saugiiman - Minecraft Server Developer</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Fade in & slide up animation */
     @keyframes fadeSlideUp {
       0% {
         opacity: 0;
@@ -24,202 +23,85 @@
     .fade-slide-up {
       animation: fadeSlideUp 0.8s ease forwards;
     }
-
-    /* Staggered animation delays */
-    .delay-100 {
-      animation-delay: 0.1s;
-    }
-    .delay-200 {
-      animation-delay: 0.2s;
-    }
-    .delay-300 {
-      animation-delay: 0.3s;
-    }
-    .delay-400 {
-      animation-delay: 0.4s;
-    }
-
-    /* Smooth hover effect for links */
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    .delay-400 { animation-delay: 0.4s; }
     a {
       transition: color 0.3s ease;
     }
     a:hover {
-      color: #3b82f6; /* Tailwind blue-500 */
+      color: #3b82f6;
     }
   </style>
 </head>
 <body class="bg-gray-900 text-white font-sans antialiased selection:bg-blue-600 selection:text-white">
 
   <header class="text-center py-16 fade-slide-up delay-100">
-   <div class="flex justify-center items-center gap-4">
-  <img src="psyxd-logo.png" alt="psyxD Logo" class="w-14 h-14 rounded-md shadow-md">
-  <h1 class="text-5xl font-extrabold tracking-wide drop-shadow-lg">
-    PSYxD <span class="text-blue-400">/</span> saugiiman
-  </h1>
-</div>
-
+    <div class="flex justify-center items-center gap-4">
+      <img src="psyxd-logo.png" alt="psyxD Logo" class="w-14 h-14 rounded-md shadow-md">
+      <h1 class="text-5xl font-extrabold tracking-wide drop-shadow-lg">
+        PSYxD <span class="text-blue-400">/</span> saugiiman
+      </h1>
+    </div>
     <p class="text-gray-400 mt-4 text-lg max-w-xl mx-auto leading-relaxed">
-      Minecraft Server Developer | AFK Bot Specialist | Cracked Server Wizard
+      Minecraft Server Developer | Website & Bot Creator | Cracked Server Wizard
     </p>
   </header>
 
   <main class="max-w-4xl mx-auto px-6 space-y-16">
 
-<section class="fade-slide-up delay-200">
-  <h2 class="text-3xl font-bold mb-6 border-b-2 border-blue-500 inline-block pb-1">🚀 Projects</h2>
+    <section class="fade-slide-up delay-200">
+      <h2 class="text-3xl font-bold mb-6 border-b-2 border-blue-500 inline-block pb-1">💻 What I Do</h2>
 
-  <div class="bg-gray-900 p-6 rounded-xl shadow-lg">
-    <h3 class="text-3xl font-bold text-white mb-3">AFK Bot for 24/7 Minecraft Server</h3>
-    <p class="text-gray-300 mb-6">
-      This bot helps keep your Minecraft server online 24/7. Compatible with Java and Bedrock.
-    </p>
+      <div class="bg-gray-900 p-6 rounded-xl shadow-lg space-y-4 text-gray-300 text-lg leading-relaxed">
+        <p>
+          As a passionate Minecraft Server Developer, I specialize in everything needed to create, manage, and enhance Minecraft servers—both cracked and premium.
+        </p>
 
-    <!-- Real-time server status -->
-    <div id="status-box" class="bg-gray-800 p-4 rounded-lg text-white">
-      <h4 class="text-xl font-semibold text-blue-400 mb-2">🌐 Server Status</h4>
-      <p class="text-gray-300">Fetching status...</p>
-    </div>
-  </div>
-</section>
+        <ul class="list-disc list-inside space-y-2">
+          <li><strong>Server Creation & Setup:</strong> Survival, lifesteal, minigames, lobby/hub, and custom SMP servers.</li>
+          <li><strong>Plugin Installation:</strong> LuckPerms, EssentialsX, Multiverse, GeyserMC, ViaVersion, and more.</li>
+          <li><strong>Performance Tuning:</strong> Using Paper, Purpur, Velocity for lag-free gameplay.</li>
+          <li><strong>Custom MOTDs & Branding:</strong> Create icons, banners, and custom welcome messages.</li>
+          <li><strong>Lobby/Hub Design:</strong> Portals, NPCs, cosmetics, and server selectors.</li>
+          <li><strong>Permissions & Ranks:</strong> Full LuckPerms setup with staff and group permissions.</li>
+          <li><strong>Multi-server Networks:</strong> BungeeCord or Velocity setup for linked server networks.</li>
+          <li><strong>Bot Development:</strong> Discord bots for moderation, commands, automation (JavaScript, Python).</li>
+          <li><strong>Website Development:</strong> Portfolios, landing pages, server dashboards using HTML, Tailwind CSS, and JS.</li>
+        </ul>
 
-<script>
-const ip = "afkbottest.aternos.me";
-let serverData = null;
-let lastStatusOnline = null;
-let isLoading = true;
-
-// Uptime start stored in localStorage
-let storedStart = localStorage.getItem("customUptimeStart");
-let customStartTime;
-if (storedStart) {
-  customStartTime = new Date(parseInt(storedStart));
-} else {
-  customStartTime = new Date(Date.now() - 5 * 24 * 60 * 60 * 1000);
-  localStorage.setItem("customUptimeStart", customStartTime.getTime());
-}
-
-function formatDuration(ms) {
-  const totalSeconds = Math.floor(ms / 1000);
-  const hrs = Math.floor(totalSeconds / 3600);
-  const mins = Math.floor((totalSeconds % 3600) / 60);
-  const secs = totalSeconds % 60;
-  return `${hrs}h ${mins}m ${secs}s`;
-}
-
-function updateStatusDisplay() {
-  const box = document.getElementById("status-box");
-  const uptimeMs = Date.now() - customStartTime.getTime();
-  
-  if (serverData) {
-    if (serverData.online) {
-      lastStatusOnline = true;
-      const onlinePlayers = serverData.players?.online || 0;
-      const maxPlayers = serverData.players?.max || "?";
-      const motd = serverData.motd?.clean?.join(" ") || "Welcome!";
-      const uptime = formatDuration(uptimeMs);
-  
-      box.innerHTML = `
-        <p class="text-green-400 font-semibold">🟢 Online</p>
-        <p><strong>IP:</strong> ${ip}</p>
-        <p><strong>MOTD:</strong> ${motd}</p>
-        <p><strong>Players:</strong> ${onlinePlayers} / ${maxPlayers}</p>
-        <p><strong>Uptime:</strong> ${uptime}</p>
-      `;
-    } else {
-      lastStatusOnline = false;
-      const uptime = formatDuration(uptimeMs);
-      box.innerHTML = `
-        <p class="text-red-400 font-semibold">🔴 Offline</p>
-        <p><strong>IP:</strong> ${ip}</p>
-        <p><strong>Uptime:</strong> ${uptime}</p>
-      `;
-    }
-  } else {
-    // If no serverData yet, show loading or last known status
-    if (isLoading) {
-      box.innerHTML = `<p class="text-gray-300">Fetching status...</p>`;
-    } else if (lastStatusOnline === true) {
-      // Show last known online info with uptime, minimal
-      const uptime = formatDuration(uptimeMs);
-      box.innerHTML = `
-        <p class="text-green-400 font-semibold">🟢 Online (last known)</p>
-        <p><strong>IP:</strong> ${ip}</p>
-        <p><strong>Uptime:</strong> ${uptime}</p>
-      `;
-    } else if (lastStatusOnline === false) {
-      const uptime = formatDuration(uptimeMs);
-      box.innerHTML = `
-        <p class="text-red-400 font-semibold">🔴 Offline (last known)</p>
-        <p><strong>IP:</strong> ${ip}</p>
-        <p><strong>Uptime:</strong> ${uptime}</p>
-      `;
-    } else {
-      box.innerHTML = `<p class="text-gray-300">Fetching status...</p>`;
-    }
-  }
-}
-
-function fetchServerStatus(retryCount = 0) {
-  fetch(`https://api.mcsrvstat.us/2/${ip}`)
-    .then(res => res.json())
-    .then(data => {
-      serverData = data;
-      isLoading = false;
-      updateStatusDisplay();
-    })
-    .catch(() => {
-      if (retryCount < 3) {
-        // Retry after 1 second
-        setTimeout(() => fetchServerStatus(retryCount + 1), 1000);
-      } else {
-        // After retries fail, keep last known status and update display
-        isLoading = false;
-        updateStatusDisplay();
-      }
-    });
-}
-
-// Initial fetch
-fetchServerStatus();
-
-// Update display every second (to update uptime)
-setInterval(() => {
-  updateStatusDisplay();
-}, 1000);
-
-// Refresh server status every 30 seconds
-setInterval(() => {
-  fetchServerStatus();
-}, 30000);
-
-</script>
-
+        <p>
+          Whether you're starting a simple SMP or a full-featured server network, I’ve got you covered.
+        </p>
+      </div>
+    </section>
 
     <section class="fade-slide-up delay-300">
       <h2 class="text-3xl font-bold mb-6 border-b-2 border-blue-500 inline-block pb-1">💼 Services</h2>
       <ul class="list-disc list-inside text-gray-300 space-y-2 text-lg leading-relaxed">
-        <li>AFK Bot Setup for Cracked Servers</li>
-        <li>Server Optimization (Paper, Purpur, Velocity, GeyserMC)</li>
-        <li>Plugin Installation & Configuration (LuckPerms, Multiverse, etc.)</li>
-        <li>Performance Debugging & Custom MOTDs</li>
+        <li>Cracked Server Setup & Security</li>
+        <li>AFK Bots, Automation Scripts, Discord Bots</li>
+        <li>Plugin Installation, Bug Fixes, and Lag Optimization</li>
+        <li>Lobby Design with Portals, Cosmetics & NPCs</li>
+        <li>Custom MOTD, Server Icon, and Branding</li>
+        <li>Velocity, Paper, Purpur, BungeeCord Server Setup</li>
+        <li>Responsive Portfolio & Server Websites</li>
       </ul>
     </section>
 
     <section class="fade-slide-up delay-400">
-  <h2 class="text-3xl font-bold mb-6 border-b-2 border-blue-500 inline-block pb-1">📬 Contact</h2>
+      <h2 class="text-3xl font-bold mb-6 border-b-2 border-blue-500 inline-block pb-1">📬 Contact</h2>
 
-  <p class="text-gray-300 text-lg flex items-center gap-2 mb-2">
-    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord" class="w-5 h-5 inline-block">
-    <strong>saugiiman</strong>
-  </p>
+      <p class="text-gray-300 text-lg flex items-center gap-2 mb-2">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord" class="w-5 h-5 inline-block">
+        <strong>saugiiman</strong>
+      </p>
 
-
-  <p class="text-gray-300 text-lg italic">
-    💬 Discord Server: Coming Soon
-  </p>
-</section>
-
-
+      <p class="text-gray-300 text-lg italic">
+        💬 Discord Server: Coming Soon
+      </p>
+    </section>
 
   </main>
 
