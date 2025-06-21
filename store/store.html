@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PSYxD Store | Minecraft Server</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes fadeSlideUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .fade-slide-up {
+      animation: fadeSlideUp 0.8s ease forwards;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 text-white font-sans">
+
+  <!-- Navigation Bar -->
+  <nav class="bg-gray-950 text-white shadow-lg w-full fixed top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="text-xl font-bold text-blue-400">PSYxD Store</div>
+      <div class="space-x-6">
+        <a href="https://saugiiman.github.io/" class="hover:text-blue-400 transition">Home</a>
+        <a href="https://saugiiman.github.io/store/" class="hover:text-blue-400 transition">Store</a>
+        <a href="https://saugiiman.github.io/#contact" class="hover:text-blue-400 transition">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Spacer for Fixed Navbar -->
+  <div class="pt-20"></div>
+
+  <!-- Header Section -->
+  <header class="text-center py-16 fade-slide-up">
+    <div class="flex justify-center items-center gap-4">
+      <img src="/psyxd-logo.png" alt="Logo" class="w-14 h-14 rounded-md shadow-md">
+      <h1 class="text-5xl font-extrabold tracking-wide text-blue-400 drop-shadow-lg">PSYxD Store</h1>
+    </div>
+    <p class="text-gray-300 mt-2 text-lg">Support the server and unlock exclusive features</p>
+    <div class="mt-4 text-sm text-gray-400">
+      Server IP: <span class="bg-gray-800 px-2 py-1 rounded">example.test.fun</span>
+    </div>
+  </header>
+
+  <!-- Store Items -->
+  <main class="max-w-6xl mx-auto px-6 py-12 grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 fade-slide-up">
+    <div class="bg-gray-800 rounded-xl p-6 shadow-lg text-center hover:scale-[1.02] transition">
+      <h2 class="text-2xl font-bold text-blue-300 mb-2">VIP Rank</h2>
+      <p class="text-gray-400 text-sm mb-4">Exclusive commands and features to stand out!</p>
+      <button class="bg-gradient-to-r from-blue-400 to-teal-400 text-black font-bold py-2 px-4 rounded hover:opacity-90 transition">Buy ₹149</button>
+    </div>
+
+    <div class="bg-gray-800 rounded-xl p-6 shadow-lg text-center hover:scale-[1.02] transition">
+      <h2 class="text-2xl font-bold text-yellow-300 mb-2">MVP Rank</h2>
+      <p class="text-gray-400 text-sm mb-4">Special kits, particles, and priority access.</p>
+      <button class="bg-gradient-to-r from-yellow-400 to-orange-400 text-black font-bold py-2 px-4 rounded hover:opacity-90 transition">Buy ₹299</button>
+    </div>
+
+    <div class="bg-gray-800 rounded-xl p-6 shadow-lg text-center hover:scale-[1.02] transition">
+      <h2 class="text-2xl font-bold text-purple-300 mb-2">Legendary Crate Key</h2>
+      <p class="text-gray-400 text-sm mb-4">Try your luck and win rare rewards!</p>
+      <button class="bg-gradient-to-r from-purple-400 to-pink-400 text-black font-bold py-2 px-4 rounded hover:opacity-90 transition">Buy ₹99</button>
+    </div>
+
+    <div class="bg-gray-800 rounded-xl p-6 shadow-lg text-center hover:scale-[1.02] transition">
+      <h2 class="text-2xl font-bold text-teal-300 mb-2">Fly Perk</h2>
+      <p class="text-gray-400 text-sm mb-4">Fly in survival worlds like a pro!</p>
+      <button class="bg-gradient-to-r from-teal-400 to-cyan-400 text-black font-bold py-2 px-4 rounded hover:opacity-90 transition">Buy ₹199</button>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center text-gray-500 py-6 fade-slide-up">
+    &copy; 2025 PSYxD / saugiiman | Store for Minecraft Server: <span class="text-gray-300">example.test.fun</span>
+  </footer>
+
+</body>
+</html>
