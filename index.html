@@ -1,117 +1,274 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="manifest" href="/site.webmanifest">
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PSYxD | saugiiman - Minecraft Server Developer</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>PSYxD / saugiiman — Minecraft Server Developer • Web & Security Engineer</title>
+
+  <!-- Primary SEO -->
+  <meta name="description" content="PSYxD (saugiiman) — Professional Minecraft server developer, web developer, penetration tester and full-stack engineer. Server setup, plugins, performance tuning, security audits, pentesting, web apps, bots, automation and DevOps. Contact via email, GitHub, or Discord for freelance and long-term work.">
+  <meta name="keywords" content="Minecraft server developer, Minecraft plugins, Paper, Purpur, Velocity, BungeeCord, server setup, server administration, server performance, plugin installation, GeyserMC, ViaVersion, LuckPerms, custom MOTD, server icon, lobby design, minigames, SMP, cracked server, premium server, web developer, front-end developer, backend developer, full-stack, React, Tailwind CSS, HTML, CSS, JavaScript, Node.js, Express, Flask, Python, Java, Kotlin, security, penetration testing, pentest, vulnerability assessment, OWASP, Burp Suite, web pentesting, security audit, ethical hacking, authorized testing, CVE, remediation, DevOps, Docker, CI/CD, MySQL, MongoDB, automation, Discord bots, Mineflayer, Selenium, server dashboard, control panel, site security, website vulnerability tester, vulnerability scanning, server hardening, remote management, server monitoring, logging, GitHub, open source projects, saugiiman GitHub" />
+  <meta name="author" content="PSYxD / saugiiman">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph / Social -->
+  <meta property="og:title" content="PSYxD / saugiiman — Minecraft Server Developer & Security Engineer">
+  <meta property="og:description" content="Server builds, plugin work, web development, automation, and authorized penetration testing. Contact for audits, freelance and long-term contracts.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://saugiiman.github.io/">
+  <meta property="og:image" content="https://saugiiman.github.io/psyxd-preview.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@psyxD">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://saugiiman.github.io/">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "PSYxD / saugiiman",
+    "url": "https://saugiiman.github.io/",
+    "sameAs": [
+      "https://discord.gg/",
+      "https://github.com/saugiiman"
+    ],
+    "jobTitle": "Minecraft Server Developer, Web Developer, Security Engineer",
+    "description": "Builds Minecraft servers, writes web apps, automations and performs authorized security and penetration testing."
+  }
+  </script>
+
   <style>
-    @keyframes fadeSlideUp {
-      0% {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    :root{
+      --bg:#0b0b0b; --panel:#0f0f0f; --muted:#9aa0a6; --accent:#ffffff; --glass:rgba(255,255,255,0.03);
+      --radius:12px; --gap:20px; --tile-shadow: 0 6px 18px rgba(2,2,2,0.6);
+      --max-width:1100px;
     }
-    .fade-slide-up {
-      animation: fadeSlideUp 0.8s ease forwards;
-    }
-    .delay-100 { animation-delay: 0.1s; }
-    .delay-200 { animation-delay: 0.2s; }
-    .delay-300 { animation-delay: 0.3s; }
-    .delay-400 { animation-delay: 0.4s; }
-    a {
-      transition: color 0.3s ease;
-    }
-    a:hover {
-      color: #3b82f6;
-    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:linear-gradient(180deg,var(--bg),#0a0a0a); color:var(--accent); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:var(--max-width);margin:36px auto;padding:28px;}
+
+    /* Header */
+    header{display:flex;gap:20px;align-items:center;justify-content:space-between}
+    .brand{display:flex;gap:14px;align-items:center}
+    .logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(180deg,#111,#0b0b0b);display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.04);box-shadow:var(--tile-shadow)}
+    .title{font-size:22px;font-weight:700;letter-spacing:0.6px}
+    .subtitle{color:var(--muted);font-size:13px}
+
+    /* Grid */
+    .grid{display:grid;grid-template-columns:1fr;gap:var(--gap);margin-top:28px}
+    @media(min-width:900px){.grid{grid-template-columns: 2fr 1fr}}
+
+    /* Panels */
+    .panel{background:var(--panel);border-radius:var(--radius);padding:18px;border:1px solid rgba(255,255,255,0.03);box-shadow:var(--tile-shadow)}
+    .panel h2{margin:0 0 8px 0;font-size:18px}
+    .muted{color:var(--muted);font-size:14px}
+
+    /* Tiles */
+    .tiles{display:grid;grid-template-columns:repeat(1,1fr);gap:14px;margin-top:12px}
+    @media(min-width:680px){.tiles{grid-template-columns:repeat(2,1fr)}}
+    @media(min-width:1100px){.tiles{grid-template-columns:repeat(3,1fr)}}
+    .tile{background:linear-gradient(180deg,rgba(255,255,255,0.02),var(--glass));padding:14px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);transition:transform .28s ease,box-shadow .28s ease}
+    .tile:hover{transform:translateY(-6px);box-shadow:0 12px 36px rgba(0,0,0,0.6)}
+    .tile h3{margin:0 0 6px 0;font-size:15px}
+    .tile p{margin:0;color:var(--muted);font-size:13px}
+
+    /* Hero */
+    .hero{display:flex;flex-direction:column;gap:12px}
+    .hero h1{font-size:28px;margin:0}
+    .hero p{margin:0;color:var(--muted);}
+    .actions{display:flex;gap:12px;margin-top:10px;flex-wrap:wrap}
+    .btn{background:transparent;border:1px solid rgba(255,255,255,0.08);padding:10px 14px;border-radius:10px;font-weight:600;cursor:pointer}
+    .btn.primary{background:#fff;color:#000;border:none}
+
+    /* Skills list */
+    .pill{display:inline-block;padding:6px 10px;border-radius:999px;font-size:13px;border:1px solid rgba(255,255,255,0.04);margin:6px 6px 0 0;color:var(--muted)}
+
+    /* Contact form */
+    form{display:flex;flex-direction:column;gap:10px}
+    input,textarea,select{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--accent);resize:vertical}
+    button[type=submit]{padding:10px 12px;border-radius:8px;border:none;background:#fff;color:#000;font-weight:700;cursor:pointer}
+    .small{font-size:13px;color:var(--muted)}
+
+    footer{margin-top:28px;text-align:center;color:var(--muted);font-size:13px}
+
+    /* subtle animation */
+    .fade-up{opacity:0;transform:translateY(12px);animation:fadeUp .6s ease forwards}
+    .fade-up.delay-1{animation-delay:0.08s}
+    .fade-up.delay-2{animation-delay:0.18s}
+    @keyframes fadeUp{to{opacity:1;transform:none}}
+
+    /* accessible focus */
+    a:focus,button:focus,input:focus,textarea:focus{outline:3px solid rgba(255,255,255,0.06);outline-offset:2px}
+
   </style>
 </head>
-<body class="bg-gray-900 text-white font-sans antialiased selection:bg-blue-600 selection:text-white">
-
-  <header class="text-center py-16 fade-slide-up delay-100">
-    <div class="flex justify-center items-center gap-4">
-      <img src="psyxd-logo.png" alt="psyxD Logo" class="w-14 h-14 rounded-md shadow-md">
-      <h1 class="text-5xl font-extrabold tracking-wide drop-shadow-lg">
-        PSYxD <span class="text-blue-400">/</span> saugiiman
-      </h1>
-    </div>
-    <p class="text-gray-400 mt-4 text-lg max-w-xl mx-auto leading-relaxed">
-      Minecraft Server Developer | Website & Bot Creator | Cracked Server Wizard
-    </p>
-    <div class="mt-6">
-      <a href="/store/store.html" class="inline-block px-6 py-2 bg-gradient-to-r from-blue-400 to-teal-400 text-black font-semibold rounded-lg shadow-md hover:scale-105 transition transform">🛒 Visit Store</a>
-    </div>
-  </header>
-
-  <main class="max-w-4xl mx-auto px-6 space-y-16">
-
-    <section class="fade-slide-up delay-200">
-      <h2 class="text-3xl font-bold mb-6 border-b-2 border-blue-500 inline-block pb-1">💻 What I Do</h2>
-
-      <div class="bg-gray-900 p-6 rounded-xl shadow-lg space-y-4 text-gray-300 text-lg leading-relaxed">
-        <p>
-          As a passionate Minecraft Server Developer, I specialize in everything needed to create, manage, and enhance Minecraft servers—both cracked and premium.
-        </p>
-
-        <ul class="list-disc list-inside space-y-2">
-          <li><strong>Server Creation & Setup:</strong> Survival, lifesteal, minigames, lobby/hub, and custom SMP servers.</li>
-          <li><strong>Plugin Installation:</strong> LuckPerms, EssentialsX, Multiverse, GeyserMC, ViaVersion, and more.</li>
-          <li><strong>Performance Tuning:</strong> Using Paper, Purpur, Velocity for lag-free gameplay.</li>
-          <li><strong>Custom MOTDs & Branding:</strong> Create icons, banners, and custom welcome messages.</li>
-          <li><strong>Lobby/Hub Design:</strong> Portals, NPCs, cosmetics, and server selectors.</li>
-          <li><strong>Permissions & Ranks:</strong> Full LuckPerms setup with staff and group permissions.</li>
-          <li><strong>Multi-server Networks:</strong> BungeeCord or Velocity setup for linked server networks.</li>
-          <li><strong>Bot Development:</strong> Discord bots for moderation, commands, automation (JavaScript, Python).</li>
-          <li><strong>Website Development:</strong> Portfolios, landing pages, server dashboards using HTML, Tailwind CSS, and JS.</li>
-        </ul>
-
-        <p>
-          Whether you're starting a simple SMP or a full-featured server network, I’ve got you covered.
-        </p>
+<body>
+  <div class="container">
+    <header class="fade-up">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">PS</div>
+        <div>
+          <div class="title">PSYxD <span style="color:var(--muted)">/ saugiiman</span></div>
+          <div class="subtitle">Minecraft Server Developer · Web & Security Engineer · Full-Stack</div>
+        </div>
       </div>
-    </section>
-<script src="https://publisher.linkvertise.com/cdn/linkvertise.js"></script><script>linkvertise(1265337, {whitelist: ["saugiiman.github.io",""], blacklist: []});</script>
-<div style="position: relative;"><iframe src="https://publisher.linkvertise.com/cdn/ads/LV-728x90/index.html" frameborder="0" height="90" width="728"></iframe><a href="https://publisher.linkvertise.com/ac/1265337" target="_blank" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0;"></a></div>
-    <section class="fade-slide-up delay-300">
-      <h2 class="text-3xl font-bold mb-6 border-b-2 border-blue-500 inline-block pb-1">💼 Services</h2>
-      <ul class="list-disc list-inside text-gray-300 space-y-2 text-lg leading-relaxed">
-        <li>Cracked Server Setup & Security</li>
-        <li>AFK Bots, Automation Scripts, Discord Bots</li>
-        <li>Plugin Installation, Bug Fixes, and Lag Optimization</li>
-        <li>Lobby Design with Portals, Cosmetics & NPCs</li>
-        <li>Custom MOTD, Server Icon, and Branding</li>
-        <li>Velocity, Paper, Purpur, BungeeCord Server Setup</li>
-        <li>Responsive Portfolio & Server Websites</li>
-      </ul>
-    </section>
 
-    <section class="fade-slide-up delay-400">
-      <h2 class="text-3xl font-bold mb-6 border-b-2 border-blue-500 inline-block pb-1">📬 Contact</h2>
+      <div class="actions">
+        <a href="#contact" class="btn">Contact</a>
+        <a href="#work" class="btn">Work</a>
+        <a href="/store/store.html" class="btn primary">Visit Store</a>
+      </div>
+    </header>
 
-      <p class="text-gray-300 text-lg flex items-center gap-2 mb-2">
-        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord" class="w-5 h-5 inline-block">
-        <strong>saugiiman</strong>
-      </p>
+    <main class="grid">
+      <section class="panel hero fade-up delay-1">
+        <h1>Professional Minecraft servers, secure web apps & audits</h1>
+        <p class="muted">I build fast, reliable Minecraft servers (Paper, Purpur, Velocity, BungeeCord), craft web dashboards, automation bots and run authorized penetration tests and vulnerability assessments. I specialize in full-stack development, server performance tuning and security hardening.</p>
 
-      <p class="text-gray-300 text-lg italic">
-        💬 Discord Server: Coming Soon
-      </p>
-    </section>
+        <div style="margin-top:12px">
+          <strong>Availability:</strong> Freelance, contract, remote and on-site audits.
+        </div>
 
-  </main>
+        <div style="margin-top:12px">
+          <span class="pill">Minecraft Servers</span>
+          <span class="pill">Web Dev</span>
+          <span class="pill">Pentesting</span>
+          <span class="pill">Automation</span>
+          <span class="pill">DevOps</span>
+        </div>
 
-  <footer class="text-center text-gray-500 mt-20 mb-8 select-none fade-slide-up delay-400">
-    © 2025 PSYxD / saugiiman | Minecraft Server Developer
-  </footer>
+        <div style="margin-top:14px" class="muted">Quick contacts: <strong>Discord:</strong> saugiiman • <strong>Email:</strong> <a href="mailto:psyfeind@gmail.com">psyfeind@gmail.com</a>, <a href="mailto:psyduckbry@gmail.com">psyduckbry@gmail.com</a> • <strong>GitHub:</strong> <a href="https://github.com/saugiiman" target="_blank">github.com/saugiiman</a></div>
+      </section>
 
+      <aside class="panel fade-up delay-2">
+        <h2>Skills & Technologies</h2>
+        <div class="tiles" style="margin-top:12px">
+          <div class="tile"><h3>Languages</h3><p class="muted">Java, Kotlin, JavaScript (Node/React), TypeScript, Python, SQL</p></div>
+          <div class="tile"><h3>Web & Frameworks</h3><p class="muted">HTML, CSS, Tailwind, React, Express, Flask, REST APIs</p></div>
+          <div class="tile"><h3>Server Tech</h3><p class="muted">Paper, Purpur, Velocity, BungeeCord, GeyserMC</p></div>
+          <div class="tile"><h3>Security</h3><p class="muted">OWASP Top 10, Burp Suite, vulnerability scanning, secure configs, penetration testing</p></div>
+          <div class="tile"><h3>Infrastructure</h3><p class="muted">Docker, CI/CD, Nginx, systemd, monitoring, backups</p></div>
+          <div class="tile"><h3>Automation & Bots</h3><p class="muted">Mineflayer, Discord.js/py, Selenium, scripts and task automation</p></div>
+        </div>
+      </aside>
+
+      <section id="work" class="panel" style="grid-column:1/-1">
+        <h2>Selected Projects & Work</h2>
+        <div class="tiles" style="margin-top:12px">
+          <div class="tile">
+            <h3>Multi-Server Network</h3>
+            <p class="muted">Velocity + Paper network with custom proxy rules, cross-server protections and automated deploys via CI.</p>
+          </div>
+          <div class="tile">
+            <h3>Server Dashboard</h3>
+            <p class="muted">Flask/Tailwind admin panel to manage plugins, view logs, scheduled backups and uptime checks.</p>
+          </div>
+          <div class="tile">
+            <h3>Security Audit</h3>
+            <p class="muted">Comprehensive web app pentest including OWASP risks, CVE cross-checks and remediation guidance (authorized testing only).</p>
+          </div>
+          <div class="tile">
+            <h3>Automation Suite</h3>
+            <p class="muted">Mineflayer bots and CI automation for server-side tasks: plugin updates, restarts, and reports.</p>
+          </div>
+          <div class="tile">
+            <h3>Discord Bot Ecosystem</h3>
+            <p class="muted">Moderation, automations, and server onboarding bots (Node.js/Python).</p>
+          </div>
+          <div class="tile">
+            <h3>Site Redesign & SEO</h3>
+            <p class="muted">Landing page and SEO setup for game servers and community reach.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="services" class="panel">
+        <h2>Services</h2>
+        <ul class="muted" style="margin-top:10px;line-height:1.6">
+          <li>Server setup & migration (Paper, Purpur, Velocity, BungeeCord)</li>
+          <li>Plugin installation, customization & performance tuning</li>
+          <li>Custom web dashboards, control panels and server APIs</li>
+          <li>Automation, bots and scheduled management</li>
+          <li>Security & penetration testing (authorized only) — audits, scans, remediation</li>
+          <li>DevOps: Docker, CI/CD, backup, monitoring</li>
+          <li>Consulting, mentoring and long-term support contracts</li>
+        </ul>
+      </section>
+
+      <section id="contact" class="panel">
+        <h2>Contact & Availability</h2>
+        <p class="muted">I accept authorized security audits, freelance projects and full-time contracts. Please provide written permission for any security testing — unauthorized testing is illegal.</p>
+
+        <div style="display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px">
+          <form id="contactForm" onsubmit="handleContact(event)" aria-label="Contact form">
+            <input id="name" name="name" type="text" placeholder="Your name" required>
+            <input id="email" name="email" type="email" placeholder="Your email" required>
+            <input id="subject" name="subject" type="text" placeholder="Subject" required>
+            <textarea id="message" name="message" placeholder="Your message (include scope for audits if requesting a security test)" rows="6" required></textarea>
+            <!-- honeypot -->
+            <input type="text" name="website" style="display:none" tabindex="-1" autocomplete="off">
+            <button type="submit">Send message</button>
+            <div id="formNote" class="small" aria-live="polite" style="margin-top:8px"></div>
+          </form>
+
+          <div>
+            <h3>Direct Contacts</h3>
+            <p class="muted"><strong>Discord:</strong> saugiiman</p>
+            <p class="muted"><strong>Emails:</strong></p>
+            <ul class="muted">
+              <li><a href="mailto:psyfeind@gmail.com">psyfeind@gmail.com</a></li>
+              <li><a href="mailto:psyduckbry@gmail.com">psyduckbry@gmail.com</a></li>
+            </ul>
+            <p class="muted"><strong>GitHub:</strong> <a href="https://github.com/saugiiman" target="_blank">github.com/saugiiman</a></p>
+
+            <h4 style="margin-top:12px">Security & Legal</h4>
+            <p class="muted">I perform <strong>authorized</strong> penetration tests and audits only. Provide written permission or a signed scope document before scheduling. Unauthorized testing or exploitation is strictly refused.</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <div>© 2025 PSYxD / saugiiman — Minecraft Server Developer, Web & Security Engineer</div>
+      <div class="muted">Built for clarity • Available for audits, projects & mentoring</div>
+    </footer>
+  </div>
+
+  <!-- Ad placement -->
+  <div class="ad" style="margin:20px auto;max-width:728px;text-align:center">
+    <script type="text/javascript">
+      atOptions = {
+        'key' : '7da53dda5261899bd80fe4628d056f9c',
+        'format' : 'iframe',
+        'height' : 90,
+        'width' : 728,
+        'params' : {}
+      };
+    </script>
+    <script type="text/javascript" src="//www.highperformanceformat.com/7da53dda5261899bd80fe4628d056f9c/invoke.js"></script>
+  </div>
+
+  <script>
+    function handleContact(e){
+      e.preventDefault();
+      const form = document.getElementById('contactForm');
+      const honeypot = form.querySelector('input[name="website"]').value;
+      if(honeypot){ document.getElementById('formNote').textContent = 'Spam detected.'; return }
+      const name = encodeURIComponent(form.name.value);
+      const email = encodeURIComponent(form.email.value);
+      const subject = encodeURIComponent(form.subject.value);
+      const message = encodeURIComponent(form.message.value + '\\n\\n---\\nSent from PSYxD portfolio');
+      const mailto = `mailto:psyfeind@gmail.com,psyduckbry@gmail.com?subject=${subject}&body=From:%20${name}%20<${email}>%0A%0A${message}`;
+      window.location.href = mailto;
+      document.getElementById('formNote').textContent = 'Opening your mail client to send the message. If nothing happens, email: psyfeind@gmail.com';
+    }
+  </script>
 </body>
 </html>
